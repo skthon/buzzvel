@@ -25,12 +25,12 @@ trait TaskMockData
         $taskAttachment1 = TaskAttachment::factory()->create([
             'id'      => $uuid1,
             'task_id' => $task->id,
-            'path'    => "tasks/{$task->id}/{$uuid1}.png",
+            'path'    => "tasks/{$task->id}/{$uuid1}.pdf",
         ]);
         $taskAttachment2 = TaskAttachment::factory()->create([
             'id'      => $uuid2,
             'task_id' => $task->id,
-            'path'    => "tasks/{$task->id}/{$uuid2}.png",
+            'path'    => "tasks/{$task->id}/{$uuid2}.pdf",
         ]);
 
         return [

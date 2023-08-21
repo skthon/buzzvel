@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Api\V1;
 
 use App\Models\Task;
 use App\Models\User;
@@ -11,7 +11,7 @@ use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 use Tests\Traits\TaskMockData;
 
-class TaskControllerCreateAndUpdateTest extends TestCase
+class TaskControllerTest extends TestCase
 {
     use RefreshDatabase, TaskMockData;
 
@@ -134,8 +134,8 @@ class TaskControllerCreateAndUpdateTest extends TestCase
             'title'       => 'Learn Laravel',
             'description' => 'Learn Laravel fundamentals in 30 days by finishing a course in laracasts',
             'attachments' => [
-                UploadedFile::fake()->image('test1.jpg'),
-                UploadedFile::fake()->create('document.pdf', 100),
+                UploadedFile::fake()->create('test1.pdf', 100),
+                UploadedFile::fake()->create('test2.pdf', 100),
             ],
         ]);
         $response->assertStatus(201);
@@ -148,17 +148,17 @@ class TaskControllerCreateAndUpdateTest extends TestCase
             'deleted_at'   => null,
         ]);
         $this->assertDatabaseHas('task_attachments', [
-            'filename' => 'test1.jpg',
+            'filename' => 'test1.pdf',
         ]);
         $this->assertDatabaseHas('task_attachments', [
-            'filename' => 'document.pdf',
+            'filename' => 'test2.pdf',
         ]);
 
         $response = $response->json();
         $taskId = $response['data']['id'];
         $attachmentId1 = $response['data']['attachments'][0]['id'];
         $attachmentId2 = $response['data']['attachments'][1]['id'];
-        Storage::disk('public')->assertExists("tasks/$taskId/$attachmentId1.jpg");
+        Storage::disk('public')->assertExists("tasks/$taskId/$attachmentId1.pdf");
         Storage::disk('public')->assertExists("tasks/$taskId/$attachmentId2.pdf");
     }
 
@@ -210,7 +210,7 @@ class TaskControllerCreateAndUpdateTest extends TestCase
             'description'  => 'Learn Laravel fundamentals in 30 days by finishing a course in laracasts updated',
             'is_completed' => true,
             'attachments' => [
-                UploadedFile::fake()->image('test1.jpg'),
+                UploadedFile::fake()->create('test1.pdf'),
             ],
             'delete_attachments' => [
                 $task['attachments'][0]['id'],
@@ -229,9 +229,9 @@ class TaskControllerCreateAndUpdateTest extends TestCase
         $this->assertDatabaseCount('task_attachments', 1);
         $this->assertCount(1, $response['data']['attachments']);
 
-        Storage::disk('public')->assertMissing("tasks/{$task['id']}/{$task['attachments'][0]['id']}.png");
-        Storage::disk('public')->assertMissing("tasks/{$task['id']}/{$task['attachments'][1]['id']}.png");
-        Storage::disk('public')->assertExists("tasks/{$task['id']}/{$response['data']['attachments'][0]['id']}.jpg");
+        Storage::disk('public')->assertMissing("tasks/{$task['id']}/{$task['attachments'][0]['id']}.pdf");
+        Storage::disk('public')->assertMissing("tasks/{$task['id']}/{$task['attachments'][1]['id']}.pdf");
+        Storage::disk('public')->assertExists("tasks/{$task['id']}/{$response['data']['attachments'][0]['id']}.pdf");
     }
 
     public function test_api_deleting_a_non_existing_task_returns_record_not_found()
