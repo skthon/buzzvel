@@ -34,6 +34,7 @@ docker exec buzzvel-app-1 bash
 cd /var/www/html
 composer install
 php artisan key:generate
+php artisan storage:link
 
 # Edit the .env file
 DB_HOST=buzzvel-mysql-1
