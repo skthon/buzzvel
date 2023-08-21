@@ -1,0 +1,301 @@
+{
+	"info": {
+		"_postman_id": "d7d992ab-ef81-4e79-9fd9-70c702689481",
+		"name": "Buzzvel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25257827"
+	},
+	"item": [
+		{
+			"name": "Update a task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "_method",
+							"value": "PUT",
+							"type": "text"
+						},
+						{
+							"key": "attachments[]",
+							"type": "file",
+							"src": [
+								"/Users/sai/logo-585e0d4c.png",
+								"/Users/sai/ProfileImage.jpeg"
+							]
+						},
+						{
+							"key": "title",
+							"value": "Finish buzzvel ",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Buzzvel test consists of creating api endpoints for keeping track of tasks",
+							"type": "text"
+						},
+						{
+							"key": "is_completed",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "delete_attachments[]",
+							"value": "99eb3aff-616f-4103-930b-77228cce0222",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "delete_attachments[]",
+							"value": "99eb3aff-6089-4e7d-a4ec-ca0df53418b5",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "https://skthon.online/api/tasks/99eb293f-3931-44e5-83f8-393f68cb75c3",
+					"protocol": "https",
+					"host": [
+						"skthon",
+						"online"
+					],
+					"path": [
+						"api",
+						"tasks",
+						"99eb293f-3931-44e5-83f8-393f68cb75c3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "attachments[]",
+							"type": "file",
+							"src": [
+								"/Users/sai/Downloads/2023 - Back-End Developer Test.pdf",
+								"/Users/sai/Downloads/Saikiran_Aug2023.pdf"
+							]
+						},
+						{
+							"key": "title",
+							"value": "Finish buzzvel ",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Buzzvel test consists of creating api endpoints for keeping track of tasks",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://skthon.online/api/tasks/",
+					"protocol": "https",
+					"host": [
+						"skthon",
+						"online"
+					],
+					"path": [
+						"api",
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List tasks",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://skthon.online/api/tasks/",
+					"protocol": "https",
+					"host": [
+						"skthon",
+						"online"
+					],
+					"path": [
+						"api",
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://skthon.online/api/tasks/99eb293f-3931-44e5-83f8-393f68cb75c3",
+					"protocol": "https",
+					"host": [
+						"skthon",
+						"online"
+					],
+					"path": [
+						"api",
+						"tasks",
+						"99eb293f-3931-44e5-83f8-393f68cb75c3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a task",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://skthon.online/api/tasks/99eb293f-3931-44e5-83f8-393f68cb75c3",
+					"protocol": "https",
+					"host": [
+						"skthon",
+						"online"
+					],
+					"path": [
+						"api",
+						"tasks",
+						"99eb293f-3931-44e5-83f8-393f68cb75c3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Saikiran",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "saikiranchavan@gmaill.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "testbuzzvel",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://skthon.online/api/register",
+					"protocol": "https",
+					"host": [
+						"skthon",
+						"online"
+					],
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
