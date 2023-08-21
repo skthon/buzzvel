@@ -1,3 +1,10 @@
+# Changes related to implentation of RESTful APIs
+- PR: https://github.com/skthon/buzzvel/pull/1
+- Live site: https://skthon.online
+- Demos
+   - https://drive.google.com/file/d/1Nc7LqFG7ZOahmNlKYQsGXie6sOVFCZXl/view
+   - https://drive.google.com/file/d/1dAi7jfvI7jm14iKbEcjLH5hQ8zZDIeZY/view
+
 # Table of Contents
 - [Requirements and Installation](#requirements-and-installation)
 - [Tests](#tests)
