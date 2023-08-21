@@ -1,66 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Changes related to implentation of RESTful APIs
+- PR: https://github.com/skthon/buzzvel/pull/1
+- Live site: https://skthon.online
+- Demos
+   - https://drive.google.com/file/d/1Nc7LqFG7ZOahmNlKYQsGXie6sOVFCZXl/view
+   - https://drive.google.com/file/d/1dAi7jfvI7jm14iKbEcjLH5hQ8zZDIeZY/view
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Table of Contents
+- [Requirements and Installation](#requirements-and-installation)
+- [Tests](#tests)
+- [Challenge](#challenge)
+- [Known Issues](#known-issues)
+- [endpoints.md](endpoints.md)
 
-## About Laravel
+# Requirements and Installation
+- Docker & Docker compose
+    - PHP 8.1
+    - Apache web server
+    - Mysql 8.0
+    - Composer
+- Clone the code repository
+```
+gh repo clone skthon/buzzvel
+```
+- After cloning, Run the below commands to setup the project
+```
+# Creates the app, db images and launches the containers
+docker-compose up -d
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Above command will create two containers: buzzvel-app-1 and buzzvel-db-1 
+# Now navigate to mysql container and create databases
+docker exec buzzvel-db-1 bash
+mysql -u root -p
+> CREATE DATABASE buzzvel;
+> CREATE DATABASE buzzvel_test;
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Navigate to container app bash terminal
+docker exec buzzvel-app-1 bash
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Go to project directory and run the composer, generate app key
+cd /var/www/html
+composer install
+php artisan key:generate
+php artisan storage:link
 
-## Learning Laravel
+# Edit the .env file
+DB_HOST=buzzvel-mysql-1
+DB_PORT=3306
+DB_DATABASE=buzzvel
+DB_USERNAME=root
+DB_PASSWORD=root
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Create a .env.testing file and set the key DB_DATABASE=buzzvel_test
+cp .env .env.testing
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# clear the cache and run the migrations
+php artisan config:clear
+php artisan migrate
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Run the tests
+php artisan test
+```
 
-## Laravel Sponsors
+# Tests
+$ php artisan test
+```
+   PASS  Tests\Feature\Api\V1\TaskControllerTest
+  ✓ api returns invalid credentials error
+  ✓ api returns invalid route error
+  ✓ api returns method not allowed error
+  ✓ api shows details of all tasks
+  ✓ api viewing a non existing task returns record not found
+  ✓ api viewing details of specific task is successful
+  ✓ api creating a new task returns validation errors
+  ✓ api creating a new task is successful
+  ✓ api updating an existing task returns validation errors
+  ✓ api updating an existing task is successful
+  ✓ api deleting a non existing task returns record not found
+  ✓ api deleting an existing task is successful
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+  Tests:  12 passed
+  Time:   0.95s
+```
 
-### Premium Partners
+# Challenge
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Implement a RESTful API for a task management application (to-do list).
 
-## Contributing
+Added a postman collection
+ * [BuzzvelPostmanCollection.json](BuzzvelPostmanCollection.json)
+ * [BuzzvelPostmanEnvironment.json](BuzzvelPostmanEnvironment.json)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Endpoints
+Detailed information on sample requests and response are added here: [endpoints.md](endpoints.md) 
 
-## Code of Conduct
+For Authentication, we have two endpoints
+- register endpoint for creating a user which returns an access token on successful creation
+- login endpoint for authentication a user with credentials which returns an access token on successful authentication
+```
+curl --location "https://skthon.online/api/register" \
+--form "name=\"Saikiran\"" \
+--form "email=\"saikiranchavan@gmaill.com\"" \
+--form "password=\"testbuzzvel\""
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+curl --location "https://skthon.online/api/login" \
+--form "email=\"saikiranchavan@gmaill.com\"" \
+--form "password=\"testbuzzvel\""
 
-## Security Vulnerabilities
+Response:
+{
+    "status": 200,
+    "access_token": "2|F4SUEcc5V5iyvBQuxHLqtvBhvN4llKJ9ZVgBHiBS"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Endpoints
+```
+- List all tasks: GET https://skthon.online/api/tasks/
+- Show details of specific task: GET https://skthon.online/api/tasks/{task_uuid}
+- Creates a new task: POST https://skthon.online/api/tasks/
+- Update an existing task: POST https://skthon.online/api/tasks/{task_uuid}
+- Deletes an existing task: DELETE https://skthon.online/api/tasks/{task_uuid}
+```
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Known Issues
+* Private attachments link
+  * Currently, the api returns the attachment url with storage link from public disk, move to this separate url by having a route authentication or by moving to minio(for local s3).
+* Things to resolve in docker
+  * Currently, the local app container installed incorrect gd version, which is resulting in errors when uploading images.
+  * Creating custom domain for the app instead of using localhost
+* Auth Tests
+  * Added unit tests for only the task apis but not for register and login routes

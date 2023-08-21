@@ -2,8 +2,12 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Handler extends ExceptionHandler
 {
@@ -43,8 +47,34 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (AuthenticationException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'code'    => 401,
+                    'message' => 'Not authenticated'
+                ], 401);
+            }
         });
+    }
+
+    public function render($request, \Throwable $e)
+    {
+        $message = match (true) {
+            $e instanceof ResourceNotFoundException     => 'Resource not found, please check the api documentation',
+            $e instanceof ModelNotFoundException        => 'Record not found',
+            $e instanceof NotFoundHttpException         => 'Route not found, please check the api documentation',
+            $e instanceof MethodNotAllowedHttpException => 'Method not allowed, please check the api documentation',
+            default                                     => null,
+        };
+
+        if ($message) {
+            $code = $e instanceof MethodNotAllowedHttpException ? 405 : 404;
+            return response()->json([
+                'code'    => $code,
+                'message' => $message,
+            ], $code);
+        }
+
+        return parent::render($request, $e);
     }
 }

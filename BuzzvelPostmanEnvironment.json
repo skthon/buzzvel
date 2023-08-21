@@ -1,0 +1,15 @@
+{
+	"id": "435431a4-f3a1-4e4b-bfd3-25e817553e95",
+	"name": "Buzzvel Test",
+	"values": [
+		{
+			"key": "token",
+			"value": "1|FlufuRPXR5q95TbZFrZ68V9XxDpiK0b9PPa5QSFw",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-08-21T04:40:14.844Z",
+	"_postman_exported_using": "Postman/10.17.0"
+}
